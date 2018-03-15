@@ -1,0 +1,60 @@
+ <?php
+session_start();
+$conn = mysqli_connect('localhost', 'root', 'root' , 'cloud');
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+
+
+
+$query = $_POST["query"];
+if (($_SESSION["mobile"]))
+ {
+$mobile  = $_SESSION["mobile"];
+$name  = $_SESSION["name"];
+$email  = $_SESSION["email"];
+$uid  = $_SESSION["uid"];
+
+
+
+
+$id = $_GET["id"];
+$title = $_POST["title"];
+$author = $_POST["author"];
+$message = $_POST["message"];
+$key = rand(1000,9999);
+
+
+/*
+echo $batchno;
+echo $password;
+echo $project;
+*/
+$sql = "INSERT INTO request(raisedby,raisedfor,uid,atitle,message)  VALUES ('$name','$author','$uid','$title','$message')";
+if (mysqli_query($conn, $sql)) {
+   echo "successfull: " . header('Location: user.php');
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+
+
+$sql = "INSERT INTO random(rankey,ranuser,ranauthor)  VALUES ('$key','$name','$author')";
+if (mysqli_query($conn, $sql)) {
+   echo "successfull: " . header('Location: user.php');
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+
+
+
+ }
+	else 
+	{
+		header('Location: error.html');    
+	}
+
+?>
